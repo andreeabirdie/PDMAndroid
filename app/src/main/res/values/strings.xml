@@ -1,3 +1,14 @@
 <resources>
-    <string name="app_name">birdsapp</string>
+    <string name="app_name">My list of songs</string>
+    <!-- Strings used for fragments for navigation -->
+    <string name="song_list_fragment_label">Songs List</string>
+    <string name="song_edit_fragment_label">Song Edit</string>
+    <string name="edit">Edit song</string>
+    <string name="save">Save song</string>
+
+    <!-- hints for edit texts-->
+    <string name="hint_song_title">Song title</string>
+    <string name="hint_nr_streams">Nr. of streams</string>
+    <string name="hint_date">Release date</string>
+    <string name="hint_hasAwards">hasAwards</string>
 </resources>

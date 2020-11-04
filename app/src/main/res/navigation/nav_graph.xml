@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/SongListFragment">
+
+    <fragment
+        android:id="@+id/SongListFragment"
+        android:name="ro.ubbcluj.ro.birdie.myapp.todo.songs.SongListFragment"
+        android:label="@string/song_list_fragment_label"
+        tools:layout="@layout/song_list_fragment">
+
+        <action
+            android:id="@+id/action_SongListFragment_to_SongEditFragment"
+            app:destination="@id/SongEditFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/SongEditFragment"
+        android:name="ro.ubbcluj.ro.birdie.myapp.todo.song.SongEditFragment"
+        android:label="@string/song_edit_fragment_label"
+        tools:layout="@layout/edit_song_fragment">
+
+        <action
+            android:id="@+id/action_SongEditFragment_to_SongListFragment"
+            app:destination="@id/SongListFragment" />
+        <argument
+            android:name="song"
+            app:argType="ro.ubbcluj.ro.birdie.myapp.todo.data.Song"
+            app:nullable="true"
+            android:defaultValue="@null" />
+    </fragment>
+</navigation>
