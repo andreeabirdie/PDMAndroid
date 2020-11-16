@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">My list of songs</string>
+    <string name="app_name">Spotify de buget</string>
     <!-- Strings used for fragments for navigation -->
     <string name="song_list_fragment_label">Songs List</string>
     <string name="song_edit_fragment_label">Song Edit</string>
@@ -11,4 +11,15 @@
     <string name="hint_nr_streams">Nr. of streams</string>
     <string name="hint_date">Release date</string>
     <string name="hint_hasAwards">hasAwards</string>
+    <string name="hint_username">Username</string>
+    <string name="hint_password">Password</string>
+
+    <string name="login_string">log in</string>
+    <string name="logout_string">log out</string>
+    <string name="delete">delete</string>
+    <string name="invalid_username">Username is not valid!</string>
+    <string name="invalid_password">Password cannot be empty!</string>
+    <string name="release_date">release date:</string>
+    <string name="search">search</string>
+    <string name="no_awards">no awards</string>
 </resources>

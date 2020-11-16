@@ -3,31 +3,36 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/SongListFragment">
+    app:startDestination="@id/fragment_song_list">
 
     <fragment
-        android:id="@+id/SongListFragment"
-        android:name="ro.ubbcluj.ro.birdie.myapp.todo.songs.SongListFragment"
+        android:id="@+id/fragment_login"
+        android:name="ro.ubbcluj.ro.birdie.myapp.auth.login.LoginFragment"
+        android:label="@string/login_string"
+        tools:layout="@layout/fragment_login" />
+
+    <fragment
+        android:id="@+id/fragment_song_list"
+        android:name="ro.ubbcluj.ro.birdie.myapp.songs.songList.SongListFragment"
         android:label="@string/song_list_fragment_label"
-        tools:layout="@layout/song_list_fragment">
+        tools:layout="@layout/fragment_song_list">
 
         <action
             android:id="@+id/action_SongListFragment_to_SongEditFragment"
-            app:destination="@id/SongEditFragment" />
+            app:destination="@id/fragment_edit_song" />
     </fragment>
     <fragment
-        android:id="@+id/SongEditFragment"
-        android:name="ro.ubbcluj.ro.birdie.myapp.todo.song.SongEditFragment"
+        android:id="@+id/fragment_edit_song"
+        android:name="ro.ubbcluj.ro.birdie.myapp.songs.songEdit.SongEditFragment"
         android:label="@string/song_edit_fragment_label"
-        tools:layout="@layout/edit_song_fragment">
+        tools:layout="@layout/fragment_edit_song">
 
         <action
             android:id="@+id/action_SongEditFragment_to_SongListFragment"
-            app:destination="@id/SongListFragment" />
+            app:destination="@id/fragment_song_list" />
         <argument
             android:name="song"
-            app:argType="ro.ubbcluj.ro.birdie.myapp.todo.data.Song"
-            app:nullable="true"
-            android:defaultValue="@null" />
+            app:argType="ro.ubbcluj.ro.birdie.myapp.songs.data.Song"
+            app:nullable="true" />
     </fragment>
 </navigation>

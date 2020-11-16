@@ -1,4 +1,4 @@
-package ro.ubbcluj.ro.birdie.myapp.todo.data
+package ro.ubbcluj.ro.birdie.myapp.songs.data
 
 interface FunctionHolder {
     fun function()

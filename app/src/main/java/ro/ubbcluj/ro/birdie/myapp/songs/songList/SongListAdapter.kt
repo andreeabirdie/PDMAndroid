@@ -1,25 +1,22 @@
-package ro.ubbcluj.ro.birdie.myapp.todo.songs
+package ro.ubbcluj.ro.birdie.myapp.songs.songList
 
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
+import kotlinx.android.synthetic.main.fragment_edit_song.view.*
 import kotlinx.android.synthetic.main.view_song.view.*
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.MainScope
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
+import kotlinx.android.synthetic.main.view_song.view.streams
+import kotlinx.android.synthetic.main.view_song.view.title
 import ro.ubbcluj.ro.birdie.myapp.R
 import ro.ubbcluj.ro.birdie.myapp.core.TAG
-import ro.ubbcluj.ro.birdie.myapp.todo.data.FunctionHolder
-import ro.ubbcluj.ro.birdie.myapp.todo.data.Song
-import ro.ubbcluj.ro.birdie.myapp.todo.data.SongRepository
-import java.text.SimpleDateFormat
+import ro.ubbcluj.ro.birdie.myapp.songs.data.Song
 
 class SongListAdapter(
     private val fragment: Fragment
@@ -34,15 +31,6 @@ class SongListAdapter(
     private var onSongClick: View.OnClickListener
 
     init {
-        SongRepository.setFunctionHolder(object : FunctionHolder {
-            override fun function() {
-                MainScope().launch {
-                    withContext(Dispatchers.Main) {
-                        notifyDataSetChanged()
-                    }
-                }
-            }
-        })
         onSongClick = View.OnClickListener { view ->
             val song = view.tag as Song
             fragment.findNavController()
@@ -51,6 +39,22 @@ class SongListAdapter(
                     bundleOf("song" to song)
                 )
         }
+    }
+
+    fun searchAndFilter(substring: String, hasAwards: Boolean, noAwards : Boolean): MutableList<Song> {
+        val filteredList: MutableList<Song> = ArrayList()
+        val substring = substring.toLowerCase().trim()
+        for (song in songs) {
+            Log.v("qwerty", "$substring ${song.title}")
+            if (substring.isNotEmpty() && !song.title.toLowerCase().contains(substring))
+                continue
+            if(hasAwards && song.hasAwards!=hasAwards)
+                continue
+            if(noAwards && song.hasAwards==noAwards)
+                continue
+            filteredList.add(song)
+        }
+        return filteredList
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -66,12 +70,11 @@ class SongListAdapter(
 
     override fun getItemCount() = songs.size
 
-
     inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         private val title: TextView = view.title
         private val streams: TextView = view.streams
         private val releaseDate: TextView = view.releaseDate
-        private val hasAwards: TextView = view.hasAwards
+        private val starIc: ImageView = view.starAwards
 
         fun bind(holder: ViewHolder, position: Int) {
             val song = songs[position]
@@ -80,9 +83,10 @@ class SongListAdapter(
                 itemView.tag = song
                 title.text = song.title
                 streams.text = song.streams.toString()
-                releaseDate.text = song.getFormattedDate()
-                hasAwards.text = song.hasAwards.toString()
+                releaseDate.text = song.releaseDate
                 itemView.setOnClickListener(onSongClick)
+                if(song.hasAwards) starIc.visibility = View.VISIBLE
+                else starIc.visibility = View.GONE
             }
         }
     }

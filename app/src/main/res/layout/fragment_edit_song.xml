@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".todo.song.SongEditFragment">
+    android:background="@color/colorAccent"
+    tools:context=".songs.songEdit.SongEditFragment">
 
     <ProgressBar
         android:id="@+id/progress"
@@ -23,7 +24,6 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/dim_10dp"
         android:hint="@string/hint_song_title"
-        android:text=""
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -33,29 +33,40 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/dim_10dp"
         android:hint="@string/hint_nr_streams"
-        android:text=""
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/title" />
 
-    <EditText
-        android:id="@+id/date"
-        android:layout_width="match_parent"
+    <TextView
+        android:id="@+id/releaseDateText"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/dim_10dp"
         android:layout_marginTop="@dimen/dim_10dp"
-        android:hint="@string/hint_date"
-        android:text=""
+        android:text="@string/release_date"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/streams" />
 
-    <EditText
+    <DatePicker
+        android:id="@+id/datePicker"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dim_10dp"
+        android:calendarViewShown="false"
+        android:calendarTextColor="@color/colorPrimary"
+        android:datePickerMode="spinner"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/releaseDateText" />
+
+    <CheckBox
         android:id="@+id/hasAwards"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/dim_10dp"
+        android:layout_marginTop="8dp"
         android:hint="@string/hint_hasAwards"
-        android:text=""
+        android:buttonTint="@color/colorPrimaryDark"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/date" />
+        app:layout_constraintTop_toBottomOf="@id/datePicker" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fab"
@@ -63,8 +74,21 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
         android:layout_margin="@dimen/fab_margin"
+        android:backgroundTint="@color/colorPrimaryDark"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@+id/title"
         app:srcCompat="@drawable/ic_baseline_check_24" />
+
+    <Button
+        android:id="@+id/deleteBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/fab_margin"
+        android:background="@color/colorPrimary"
+        android:text="@string/delete"
+        android:textColor="@color/colorPrimaryDark"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

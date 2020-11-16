@@ -34,12 +34,12 @@
         android:hint="release Date"
         />
 
-    <TextView
-        android:id="@+id/hasAwards"
+    <ImageView
+        android:id="@+id/starAwards"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/dim_10dp"
-        android:hint="hasAwards" />
+        app:srcCompat="@drawable/ic_baseline_stars_24"/>
     </com.google.android.flexbox.FlexboxLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
