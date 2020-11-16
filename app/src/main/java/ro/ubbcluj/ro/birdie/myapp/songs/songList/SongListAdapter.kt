@@ -10,7 +10,6 @@ import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
-import kotlinx.android.synthetic.main.fragment_edit_song.view.*
 import kotlinx.android.synthetic.main.view_song.view.*
 import kotlinx.android.synthetic.main.view_song.view.streams
 import kotlinx.android.synthetic.main.view_song.view.title
