@@ -38,7 +38,6 @@ class SongEditViewModel(application: Application) : AndroidViewModel(application
             mutableException.value = null
             val result: Result<Song>
             Log.v("qwerty","saving song $song")
-            song.releaseDate
             if (song._id.isNotEmpty()) {
                 result = songRepository.update(song)
             } else {
