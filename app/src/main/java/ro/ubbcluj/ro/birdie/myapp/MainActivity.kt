@@ -52,7 +52,7 @@ class MainActivity : AppCompatActivity() {
             runOnUiThread {
                 networkTxt.text = getString(R.string.active_network)
                 networkIc.setImageResource(R.drawable.ic_active_network)
-            }on
+            }
         }
 
         override fun onLost(network: Network) {
