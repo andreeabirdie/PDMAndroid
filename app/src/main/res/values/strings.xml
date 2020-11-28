@@ -22,4 +22,6 @@
     <string name="release_date">release date:</string>
     <string name="search">search</string>
     <string name="no_awards">no awards</string>
+    <string name="active_network">online</string>
+    <string name="inactive_network">offline</string>
 </resources>
