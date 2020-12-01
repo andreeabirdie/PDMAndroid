@@ -21,6 +21,7 @@ import java.util.*
 class SongEditFragment : Fragment() {
     private lateinit var viewModel: SongEditViewModel
     private var song: Song? = null
+    private var attemptAt: Long = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -41,6 +42,7 @@ class SongEditFragment : Fragment() {
         Log.v(TAG, "onViewCreated")
         song = arguments?.getParcelable("song")
         song?.let {
+            attemptAt = Date().time
             title.setText(song?.title)
             streams.setText(song?.streams.toString())
 
@@ -65,6 +67,7 @@ class SongEditFragment : Fragment() {
                 it.streams = streams.text.toString().toInt()
                 it.releaseDate = "${datePicker.dayOfMonth}.${datePicker.month+1}.${datePicker.year}"
                 it.hasAwards = hasAwards.isChecked
+                it.attemptUpdateAt = attemptAt
                 viewModel.saveOrUpdateSong(it)
             }
         }
@@ -101,7 +104,7 @@ class SongEditFragment : Fragment() {
         })
         val id = song?._id
         if (id == null) {
-            song = Song("", "", 0, "01-01-2020", false, AuthRepository.getUsername(), true, null);
+            song = Song("", "", 0, "01-01-2020", false, AuthRepository.getUsername(),"", 0);
         } else {
             viewModel.getSongById(id).observe(viewLifecycleOwner, {
                 Log.v(TAG, "update items")

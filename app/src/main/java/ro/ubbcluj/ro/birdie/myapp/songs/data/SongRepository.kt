@@ -1,7 +1,5 @@
 package ro.ubbcluj.ro.birdie.myapp.songs.data
 
-import android.util.Log
-import android.widget.Toast
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
 import ro.ubbcluj.ro.birdie.myapp.auth.data.AuthRepository
@@ -52,15 +50,13 @@ class SongRepository(val songDao: SongDao) {
                         song.owner,
                     )
                 )
-                createdSong.upToDate = true
                 createdSong.action = ""
                 songDao.insert(createdSong)
                 return Result.Success(createdSong)
             } else {
-                song.upToDate = false
                 song.action = "save"
                 songDao.insert(song)
-                Properties.instance.toastMessage.postValue("Song was saved locally. It will be sent to the server once you connect to the internet")
+                Properties.instance.toastMessage.postValue("Song was saved locally. It will be saved on the server once you connect to the internet")
                 return Result.Success(song)
             }
         } catch (e: Exception) {
@@ -72,16 +68,14 @@ class SongRepository(val songDao: SongDao) {
         try {
             if (Properties.instance.internetActive.value!!) {
                 val updatedSong = SongApi.service.update(song._id, song)
-                updatedSong.upToDate = true
                 updatedSong.action = ""
                 songDao.update(updatedSong)
                 return Result.Success(updatedSong)
             }
             else {
-                song.upToDate = false
                 song.action = "update"
                 songDao.update(song)
-                Properties.instance.toastMessage.postValue("Song was updated locally. It will be sent to the server once you connect to the internet")
+                Properties.instance.toastMessage.postValue("Song was updated locally. It will be updated to the server once you connect to the internet")
                 return Result.Success(song)
             }
         } catch (e: Exception) {
@@ -98,10 +92,9 @@ class SongRepository(val songDao: SongDao) {
                 return Result.Success(true)
             }
             else{
-                song.upToDate = false
                 song.action = "delete"
                 songDao.update(song)
-                Properties.instance.toastMessage.postValue("Song was deleted locally. It will be sent to the server once you connect to the internet")
+                Properties.instance.toastMessage.postValue("Song was deleted locally. It will be deleted to the server once you connect to the internet")
                 return Result.Success(true)
             }
         } catch (e: Exception) {

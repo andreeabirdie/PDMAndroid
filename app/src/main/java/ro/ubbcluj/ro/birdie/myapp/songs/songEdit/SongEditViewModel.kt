@@ -4,11 +4,13 @@ import android.app.Application
 import android.util.Log
 import androidx.lifecycle.*
 import kotlinx.coroutines.launch
+import ro.ubbcluj.ro.birdie.myapp.core.Properties
 import ro.ubbcluj.ro.birdie.myapp.core.TAG
 import ro.ubbcluj.ro.birdie.myapp.core.Result
 import ro.ubbcluj.ro.birdie.myapp.songs.data.Song
 import ro.ubbcluj.ro.birdie.myapp.songs.data.SongRepository
 import ro.ubbcluj.ro.birdie.myapp.songs.data.local.SongDatabase
+import java.util.*
 
 class SongEditViewModel(application: Application) : AndroidViewModel(application) {
     private val mutableFetching = MutableLiveData<Boolean>().apply { value = false }
@@ -47,7 +49,8 @@ class SongEditViewModel(application: Application) : AndroidViewModel(application
                     Log.d(TAG, "saveOrUpdateItem succeeded");
                 }
                 is Result.Error -> {
-                    Log.w(TAG, "saveOrUpdateItem failed", result.exception);
+                    Properties.instance.toastMessage.postValue("${result.exception.message}")
+                    Log.w(TAG, "saveOrUpdateItem failed", result.exception)
                     mutableException.value = result.exception
                 }
             }

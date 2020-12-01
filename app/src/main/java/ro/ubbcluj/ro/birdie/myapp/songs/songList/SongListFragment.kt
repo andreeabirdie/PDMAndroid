@@ -69,10 +69,10 @@ class SongListFragment : Fragment() {
     private fun sendOfflineActionsToServer() {
         val songs = viewModel.songRepository.songDao.getAllSongs(AuthRepository.getUsername())
         songs.forEach { song ->
-            if (song.upToDate == null) {
-                song.upToDate = true
+            if (song.action == null) {
+                song.action = ""
             }
-            if (!song.upToDate!!) {
+            if (song.action != "") {
                 Log.d(TAG, "${song.title} needs ${song.action}")
                 SongRepoHelper.setSong(song)
                 var dataParam = Data.Builder().putString("operation", "save")

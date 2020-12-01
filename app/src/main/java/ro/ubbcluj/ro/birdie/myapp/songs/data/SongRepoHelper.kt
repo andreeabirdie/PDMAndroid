@@ -44,8 +44,7 @@ object SongRepoHelper {
                     song?.owner,
                 ))
 
-                createdSong!!.upToDate= true
-                createdSong!!.action = ""
+                createdSong.action = ""
                 songRepository!!.songDao.deleteSong(createdSong.title, createdSong.releaseDate)
                 songRepository!!.songDao.insert(createdSong)
                 Properties.instance.toastMessage.postValue("Song was saved on the server")
@@ -69,7 +68,6 @@ object SongRepoHelper {
         try {
             if (Properties.instance.internetActive.value!!) {
                 Log.d(TAG, "updateNewVersionHelper")
-                song!!.upToDate = true
                 song!!.action = ""
                 val updatedSong = SongApi.service.update(song!!._id, song!!)
                 songRepository!!.songDao.update(updatedSong)
@@ -94,7 +92,7 @@ object SongRepoHelper {
         try {
             if (Properties.instance.internetActive.value!!) {
                 Log.d(TAG, "updateNewVersionHelper")
-                val deletedSong = SongApi.service.delete(song!!._id)
+                SongApi.service.delete(song!!._id)
                 songRepository!!.songDao.delete(song!!._id)
                 Properties.instance.toastMessage.postValue("Song was deleted on the server")
                 return Result.Success(true)
