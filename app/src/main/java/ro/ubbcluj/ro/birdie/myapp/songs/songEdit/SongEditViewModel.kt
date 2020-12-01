@@ -22,7 +22,7 @@ class SongEditViewModel(application: Application) : AndroidViewModel(application
     val songRepository: SongRepository
 
     init {
-        val songDao = SongDatabase.getDatabase(application, viewModelScope).songDao()
+        val songDao = SongDatabase.getDatabase(application).songDao()
         songRepository = SongRepository(songDao)
     }
 
@@ -37,7 +37,6 @@ class SongEditViewModel(application: Application) : AndroidViewModel(application
             mutableFetching.value = true
             mutableException.value = null
             val result: Result<Song>
-            Log.v("qwerty","saving song $song")
             if (song._id.isNotEmpty()) {
                 result = songRepository.update(song)
             } else {
@@ -57,10 +56,10 @@ class SongEditViewModel(application: Application) : AndroidViewModel(application
         }
     }
 
-    fun deleteItem(songId: String) {
+    fun deleteItem(song: Song) {
         viewModelScope.launch {
             Log.v(TAG, "deleteItem...");
-            val result = songRepository.delete(songId)
+            val result = songRepository.delete(song)
             when (result) {
                 is Result.Success -> {
                     Log.d(TAG, "deleteItem succeeded");

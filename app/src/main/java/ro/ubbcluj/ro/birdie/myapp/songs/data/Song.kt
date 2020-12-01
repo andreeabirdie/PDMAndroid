@@ -15,7 +15,9 @@ data class Song(
     @ColumnInfo(name = "streams") var streams: Int,
     @ColumnInfo(name = "releaseDate") var releaseDate: String,
     @ColumnInfo(name = "hasAwards") var hasAwards: Boolean,
-    @ColumnInfo(name = "owner") var owner: String?
+    @ColumnInfo(name = "owner") var owner: String?,
+    @ColumnInfo(name = "upToDate") var upToDate: Boolean?,
+    @ColumnInfo(name = "action") var action: String?
 ) : Parcelable {
     override fun toString(): String = "$title $streams $releaseDate $hasAwards"
 
@@ -25,7 +27,6 @@ data class Song(
         return sdf.format(netDate)
     }
 }
-
 
 data class SongDTO(
     var title: String,

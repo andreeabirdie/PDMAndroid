@@ -13,6 +13,7 @@ import org.json.JSONObject
 import ro.ubbcluj.ro.birdie.myapp.core.TAG
 import ro.ubbcluj.ro.birdie.myapp.core.Result
 import ro.ubbcluj.ro.birdie.myapp.songs.data.Song
+import ro.ubbcluj.ro.birdie.myapp.songs.data.SongRepoHelper
 import ro.ubbcluj.ro.birdie.myapp.songs.data.SongRepository
 import ro.ubbcluj.ro.birdie.myapp.songs.data.local.SongDatabase
 import ro.ubbcluj.ro.birdie.myapp.songs.data.remote.RemoteDataSource
@@ -27,9 +28,11 @@ class SongListViewModel(application: Application) : AndroidViewModel(application
     val loadingError: LiveData<Exception> = mutableException
 
     init {
-        val songDao = SongDatabase.getDatabase(application, viewModelScope).songDao()
+        val songDao = SongDatabase.getDatabase(application).songDao()
         songRepository = SongRepository(songDao)
         songs = songRepository.songs
+
+        SongRepoHelper.setSongRepo(songRepository)
 
         val request = Request.Builder().url("ws://192.168.0.104:3000").build()
         OkHttpClient().newWebSocket(

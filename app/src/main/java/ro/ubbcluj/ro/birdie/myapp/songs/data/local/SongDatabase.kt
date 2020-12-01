@@ -10,7 +10,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import ro.ubbcluj.ro.birdie.myapp.songs.data.Song
 
-@Database(entities = [Song::class], version = 9)
+@Database(entities = [Song::class], version = 10)
 abstract class SongDatabase : RoomDatabase() {
 
     abstract fun songDao(): SongDao
@@ -19,7 +19,7 @@ abstract class SongDatabase : RoomDatabase() {
         @Volatile
         private var INSTANCE: SongDatabase? = null
 
-        fun getDatabase(context: Context, scope: CoroutineScope): SongDatabase {
+        fun getDatabase(context: Context): SongDatabase {
             val inst = INSTANCE
             if (inst != null) {
                 return inst
@@ -30,28 +30,11 @@ abstract class SongDatabase : RoomDatabase() {
                     SongDatabase::class.java,
                     "songs_db"
                 )
-                    .addCallback(SongDatabaseCallback(scope))
                     .allowMainThreadQueries()
                     .fallbackToDestructiveMigration()
                     .build()
             INSTANCE = instance
             return instance
-        }
-
-        private class SongDatabaseCallback(private val scope: CoroutineScope) :
-            RoomDatabase.Callback() {
-
-            override fun onOpen(db: SupportSQLiteDatabase) {
-                super.onOpen(db)
-                INSTANCE?.let { database ->
-                    scope.launch(Dispatchers.IO) {
-                        populateDatabase(database.songDao())
-                    }
-                }
-            }
-        }
-
-        suspend fun populateDatabase(songDao: SongDao) {
         }
     }
 

@@ -6,15 +6,17 @@ import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.Menu
+import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.Observer
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.coroutines.InternalCoroutinesApi
+import ro.ubbcluj.ro.birdie.myapp.core.Properties
 import ro.ubbcluj.ro.birdie.myapp.core.TAG
 
 class MainActivity : AppCompatActivity() {
     private lateinit var connectivityManager: ConnectivityManager
-    private lateinit var connectivityLiveData: ConnectivityLiveData
 
     @RequiresApi(Build.VERSION_CODES.M)
     @InternalCoroutinesApi
@@ -24,13 +26,15 @@ class MainActivity : AppCompatActivity() {
         setSupportActionBar(findViewById(R.id.toolbar))
         Log.i(TAG, "onCreate")
         connectivityManager = getSystemService(android.net.ConnectivityManager::class.java)
-        connectivityLiveData = ConnectivityLiveData(connectivityManager)
+
+        Properties.instance.toastMessage.observe(
+            this,
+            { Toast.makeText(this, it, Toast.LENGTH_SHORT).show() })
     }
 
     @RequiresApi(Build.VERSION_CODES.N)
     override fun onStart() {
         super.onStart()
-        Log.d(TAG, "isOnline ${isOnline()}")
         connectivityManager.registerDefaultNetworkCallback(networkCallback)
     }
 
@@ -40,15 +44,10 @@ class MainActivity : AppCompatActivity() {
         connectivityManager.unregisterNetworkCallback(networkCallback)
     }
 
-    private fun isOnline(): Boolean {
-        val connMgr = getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
-        val networkInfo: NetworkInfo? = connMgr.activeNetworkInfo
-        return networkInfo?.isConnected == true
-    }
-
     private val networkCallback = @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     object : ConnectivityManager.NetworkCallback() {
         override fun onAvailable(network: Network) {
+            Properties.instance.internetActive.postValue(true)
             runOnUiThread {
                 networkTxt.text = getString(R.string.active_network)
                 networkIc.setImageResource(R.drawable.ic_active_network)
@@ -56,23 +55,14 @@ class MainActivity : AppCompatActivity() {
         }
 
         override fun onLost(network: Network) {
+            Properties.instance.internetActive.postValue(false)
             runOnUiThread {
                 networkTxt.text = getString(R.string.inactive_network)
                 networkIc.setImageResource(R.drawable.ic_inactive_network)
             }
         }
-
-        override fun onCapabilitiesChanged(
-            network: Network,
-            networkCapabilities: NetworkCapabilities
-        ) {
-            Log.d(TAG, "The default network changed capabilities: $networkCapabilities")
-        }
-
-        override fun onLinkPropertiesChanged(network: Network, linkProperties: LinkProperties) {
-            Log.d(TAG, "The default network changed link properties: $linkProperties")
-        }
     }
+
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.menu_main, menu)

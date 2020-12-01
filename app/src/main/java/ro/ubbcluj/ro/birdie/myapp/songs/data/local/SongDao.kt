@@ -9,6 +9,9 @@ interface SongDao {
     @Query("SELECT * from songs WHERE owner=:username ORDER BY title ASC")
     fun getAll(username: String): LiveData<List<Song>>
 
+    @Query("SELECT * from songs WHERE owner=:username ORDER BY title ASC")
+    fun getAllSongs(username: String): List<Song>
+
     @Query("SELECT * FROM Songs WHERE _id=:id ")
     fun getById(id: String): LiveData<Song>
 
@@ -23,4 +26,7 @@ interface SongDao {
 
     @Query("DELETE FROM songs WHERE _id=:id ")
     suspend fun delete(id: String)
+
+    @Query("DELETE FROM songs WHERE title=:title and releaseDate=:releaseDate")
+    suspend fun deleteSong(title: String, releaseDate: String)
 }

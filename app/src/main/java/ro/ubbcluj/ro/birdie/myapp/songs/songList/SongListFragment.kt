@@ -6,16 +6,24 @@ import android.view.*
 import android.widget.Toast
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
+import androidx.work.Data
+import androidx.work.OneTimeWorkRequestBuilder
+import androidx.work.WorkManager
 import kotlinx.android.synthetic.main.fragment_song_list.*
 import ro.ubbcluj.ro.birdie.myapp.R
 import ro.ubbcluj.ro.birdie.myapp.auth.data.AuthRepository
+import ro.ubbcluj.ro.birdie.myapp.core.Properties
 import ro.ubbcluj.ro.birdie.myapp.core.TAG
+import ro.ubbcluj.ro.birdie.myapp.songs.data.Song
+import ro.ubbcluj.ro.birdie.myapp.songs.data.SongRepoHelper
+import ro.ubbcluj.ro.birdie.myapp.songs.data.SongRepoWorker
 
 class SongListFragment : Fragment() {
     private lateinit var songListAdapter: SongListAdapter
-    private lateinit var songModel: SongListViewModel
+    private lateinit var viewModel: SongListViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -49,30 +57,68 @@ class SongListFragment : Fragment() {
         }
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        SongRepoHelper.setViewLifecycleOwner(viewLifecycleOwner)
+        Properties.instance.internetActive.observe(viewLifecycleOwner, Observer {
+            Log.d(TAG, "sending offline actions to server")
+            sendOfflineActionsToServer() })
+    }
+
+    private fun sendOfflineActionsToServer() {
+        val songs = viewModel.songRepository.songDao.getAllSongs(AuthRepository.getUsername())
+        songs.forEach { song ->
+            if (song.upToDate == null) {
+                song.upToDate = true
+            }
+            if (!song.upToDate!!) {
+                Log.d(TAG, "${song.title} needs ${song.action}")
+                SongRepoHelper.setSong(song)
+                var dataParam = Data.Builder().putString("operation", "save")
+                when(song.action) {
+                    "update" -> {
+                        dataParam = Data.Builder().putString("operation", "update")
+                    }
+                    "delete" -> {
+                        dataParam = Data.Builder().putString("operation", "delete")
+                    }
+                }
+                val request = OneTimeWorkRequestBuilder<SongRepoWorker>()
+                    .setInputData(dataParam.build())
+                    .build()
+                WorkManager.getInstance(requireContext()).enqueue(request)
+            }
+        }
+    }
+
     private fun setupSongList() {
         songListAdapter = SongListAdapter(this)
         item_list.adapter = songListAdapter
-        songModel = ViewModelProvider(this).get(SongListViewModel::class.java)
-        songModel.songs.observe(viewLifecycleOwner) { song ->
+        viewModel = ViewModelProvider(this).get(SongListViewModel::class.java)
+
+        viewModel.songs.observe(viewLifecycleOwner) { song ->
             Log.v(TAG, "update items")
             Log.d(TAG, "setupItemList items length: ${song.size}")
-            songListAdapter.songs = song
+            songListAdapter.songs = song.filter { it.action != "delete" }
         }
-        songModel.loading.observe(viewLifecycleOwner) { loading ->
+
+        viewModel.loading.observe(viewLifecycleOwner) { loading ->
             Log.i(TAG, "update loading")
             progress.visibility = if (loading) View.VISIBLE else View.GONE
         }
-        songModel.loadingError.observe(viewLifecycleOwner) { exception ->
+
+        viewModel.loadingError.observe(viewLifecycleOwner) { exception ->
             if (exception != null) {
                 Log.i(TAG, "update loading error")
                 val message = "Loading exception ${exception.message}"
                 Toast.makeText(activity, message, Toast.LENGTH_SHORT).show()
             }
         }
-        songModel.refresh()
+        viewModel.refresh()
 
         search.doOnTextChanged { _, _, _, _ ->
-            songModel.songs.observe(viewLifecycleOwner, { song ->
+            viewModel.songs.observe(viewLifecycleOwner, { song ->
                 songListAdapter.songs = song
                 songListAdapter.songs =
                     songListAdapter.searchAndFilter(search.text.toString(), hasAwards.isChecked, noAwards.isChecked)
@@ -82,7 +128,7 @@ class SongListFragment : Fragment() {
 
         hasAwards.setOnClickListener {
             if(hasAwards.isChecked) noAwards.isChecked = false
-            songModel.songs.observe(viewLifecycleOwner, { song ->
+            viewModel.songs.observe(viewLifecycleOwner, { song ->
                 songListAdapter.songs = song
                 songListAdapter.songs =
                     songListAdapter.searchAndFilter(search.text.toString(), hasAwards.isChecked, noAwards.isChecked)
@@ -92,7 +138,7 @@ class SongListFragment : Fragment() {
 
         noAwards.setOnClickListener {
             if(noAwards.isChecked) hasAwards.isChecked = false
-            songModel.songs.observe(viewLifecycleOwner, { song ->
+            viewModel.songs.observe(viewLifecycleOwner, { song ->
                 songListAdapter.songs = song
                 songListAdapter.songs =
                     songListAdapter.searchAndFilter(search.text.toString(), hasAwards.isChecked, noAwards.isChecked)

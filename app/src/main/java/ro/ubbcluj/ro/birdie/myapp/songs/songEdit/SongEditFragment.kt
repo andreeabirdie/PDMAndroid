@@ -71,7 +71,7 @@ class SongEditFragment : Fragment() {
         if(!song?._id.isNullOrEmpty()) {
             deleteBtn.visibility = View.VISIBLE
             deleteBtn.setOnClickListener {
-                viewModel.deleteItem(song!!._id)
+                song?.let { it1 -> viewModel.deleteItem(it1) }
                 findNavController().navigate(R.id.fragment_song_list)
             }}
     }
@@ -101,7 +101,7 @@ class SongEditFragment : Fragment() {
         })
         val id = song?._id
         if (id == null) {
-            song = Song("", "", 0, "01-01-1000", false, AuthRepository.getUsername());
+            song = Song("", "", 0, "01-01-2020", false, AuthRepository.getUsername(), true, null);
         } else {
             viewModel.getSongById(id).observe(viewLifecycleOwner, {
                 Log.v(TAG, "update items")

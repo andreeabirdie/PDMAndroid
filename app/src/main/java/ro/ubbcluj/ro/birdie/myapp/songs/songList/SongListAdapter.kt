@@ -44,7 +44,6 @@ class SongListAdapter(
         val filteredList: MutableList<Song> = ArrayList()
         val substring = substring.toLowerCase().trim()
         for (song in songs) {
-            Log.v("qwerty", "$substring ${song.title}")
             if (substring.isNotEmpty() && !song.title.toLowerCase().contains(substring))
                 continue
             if(hasAwards && song.hasAwards!=hasAwards)
