@@ -1,5 +1,6 @@
 package ro.ubbcluj.ro.birdie.myapp.songs.songList
 
+import android.net.Uri
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -73,6 +74,7 @@ class SongListAdapter(
         private val streams: TextView = view.streams
         private val releaseDate: TextView = view.releaseDate
         private val starIc: ImageView = view.starAwards
+        private val albumPicture: ImageView = view.albumPicture
 
         fun bind(holder: ViewHolder, position: Int) {
             val song = songs[position]
@@ -85,6 +87,10 @@ class SongListAdapter(
                 itemView.setOnClickListener(onSongClick)
                 if(song.hasAwards) starIc.visibility = View.VISIBLE
                 else starIc.visibility = View.GONE
+                song.picturePath?.let {
+                    albumPicture.setImageURI(Uri.parse(song.picturePath))
+                    albumPicture.visibility = View.VISIBLE
+                }
             }
         }
     }

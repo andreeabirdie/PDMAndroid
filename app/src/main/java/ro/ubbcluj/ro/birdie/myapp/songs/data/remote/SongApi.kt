@@ -12,7 +12,7 @@ object SongApi {
         suspend fun find(): List<Song>
 
         @GET("/api/song/{id}")
-        suspend fun read(@Path("id") songId: String): Song;
+        suspend fun read(@Path("id") songId: String): Song
 
         @Headers("Content-Type: application/json")
         @POST("/api/song")

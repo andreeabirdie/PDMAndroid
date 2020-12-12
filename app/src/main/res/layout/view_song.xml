@@ -8,37 +8,44 @@
     <com.google.android.flexbox.FlexboxLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:flexWrap="wrap"
+        app:alignContent="center"
         app:alignItems="stretch"
-        app:alignContent="stretch" >
+        app:flexWrap="wrap">
 
-    <TextView
-        android:id="@+id/title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="@dimen/dim_10dp"
-        android:hint="Song name" />
+        <ImageView
+            android:id="@+id/albumPicture"
+            android:layout_width="200dp"
+            android:layout_height="200dp"
+            android:visibility="gone" />
 
-    <TextView
-        android:id="@+id/streams"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="@dimen/dim_10dp"
-        android:hint="streams" />
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/dim_10dp"
+            android:hint="Song name" />
 
-    <TextView
-        android:id="@+id/releaseDate"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="@dimen/dim_10dp"
-        android:hint="release Date"
-        />
+        <TextView
+            android:id="@+id/streams"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/dim_10dp"
+            android:hint="streams" />
 
-    <ImageView
-        android:id="@+id/starAwards"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:srcCompat="@drawable/ic_baseline_stars_24"/>
+        <TextView
+            android:id="@+id/releaseDate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/dim_10dp"
+            android:hint="release Date" />
+
+        <ImageView
+            android:id="@+id/starAwards"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:srcCompat="@drawable/ic_baseline_stars_24" />
+
+
     </com.google.android.flexbox.FlexboxLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -24,4 +24,5 @@
     <string name="no_awards">no awards</string>
     <string name="active_network">online</string>
     <string name="inactive_network">offline</string>
+    <string name="take_picture">take picture</string>
 </resources>

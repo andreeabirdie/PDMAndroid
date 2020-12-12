@@ -1,6 +1,5 @@
 package ro.ubbcluj.ro.birdie.myapp
 
-import android.content.Context
 import android.net.*
 import android.os.Build
 import android.os.Bundle
@@ -9,7 +8,6 @@ import android.view.Menu
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.Observer
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.coroutines.InternalCoroutinesApi
 import ro.ubbcluj.ro.birdie.myapp.core.Properties
@@ -29,7 +27,7 @@ class MainActivity : AppCompatActivity() {
 
         Properties.instance.toastMessage.observe(
             this,
-            { Toast.makeText(this, it, Toast.LENGTH_SHORT).show() })
+            { Toast.makeText(this, it, Toast.LENGTH_LONG).show() })
     }
 
     @RequiresApi(Build.VERSION_CODES.N)

@@ -49,7 +49,9 @@ class SongEditViewModel(application: Application) : AndroidViewModel(application
                     Log.d(TAG, "saveOrUpdateItem succeeded");
                 }
                 is Result.Error -> {
-                    Properties.instance.toastMessage.postValue("${result.exception.message}")
+                    if(result.exception.message?.contains("409")!!){
+                        Properties.instance.toastMessage.postValue("There are version conflicts. Please try again")
+                    }
                     Log.w(TAG, "saveOrUpdateItem failed", result.exception)
                     mutableException.value = result.exception
                 }
