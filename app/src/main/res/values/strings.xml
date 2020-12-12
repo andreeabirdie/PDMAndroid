@@ -25,4 +25,9 @@
     <string name="active_network">online</string>
     <string name="inactive_network">offline</string>
     <string name="take_picture">take picture</string>
+    <string name="google_maps_api_key">AIzaSyAWVrNoe-OApwgBYNFJ9DhYGjQb06AyxdE</string>
+    <string name="set_location">set location</string>
+    <string name="longitude">Longitude:</string>
+    <string name="latitude">Latitude:</string>
+    <string name="locate">locate</string>
 </resources>

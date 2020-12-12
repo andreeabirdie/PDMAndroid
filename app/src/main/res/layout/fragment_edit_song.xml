@@ -57,14 +57,52 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/datePicker" />
 
+    <TextView
+        android:id="@+id/latitudeTxt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/latitude"
+        app:layout_constraintEnd_toStartOf="@id/seeLocationBtn"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/hasAwards" />
+
+    <TextView
+        android:id="@+id/longitudeTxt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/longitude"
+        app:layout_constraintEnd_toStartOf="@id/seeLocationBtn"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/latitudeTxt" />
+
+    <Button
+        android:id="@+id/seeLocationBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@color/colorPrimary"
+        android:layout_marginEnd="10dp"
+        android:text="@string/locate"
+        android:textColor="@color/colorPrimaryDark"
+        app:layout_constraintEnd_toStartOf="@id/setLocationBtn"
+        app:layout_constraintTop_toBottomOf="@id/hasAwards" />
+
+    <Button
+        android:id="@+id/setLocationBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@color/colorPrimary"
+        android:text="@string/set_location"
+        android:textColor="@color/colorPrimaryDark"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/hasAwards" />
+
     <ImageView
         android:id="@+id/albumPicture"
         android:layout_width="200dp"
         android:layout_height="200dp"
-        app:layout_constraintTop_toBottomOf="@id/hasAwards"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"/>
-
+        app:layout_constraintTop_toBottomOf="@id/seeLocationBtn" />
 
     <Button
         android:id="@+id/deleteBtn"
@@ -86,9 +124,9 @@
         android:background="@color/colorPrimary"
         android:text="@string/take_picture"
         android:textColor="@color/colorPrimaryDark"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"/>
+        app:layout_constraintStart_toStartOf="parent" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fab"

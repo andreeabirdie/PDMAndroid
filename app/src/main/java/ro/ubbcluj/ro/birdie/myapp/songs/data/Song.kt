@@ -18,7 +18,9 @@ data class Song(
     @ColumnInfo(name = "owner") var owner: String?,
     @ColumnInfo(name = "action") var action: String?,
     @ColumnInfo(name = "attemptUpdateAt") var attemptUpdateAt: Long,
-    @ColumnInfo(name = "picturePath") var picturePath: String?
+    @ColumnInfo(name = "picturePath") var picturePath: String?,
+    @ColumnInfo(name = "latitude") var latitude: Float?,
+    @ColumnInfo(name = "longitude") var longitude: Float?
 ) : Parcelable {
     override fun toString(): String = "$title $streams $releaseDate $hasAwards"
 

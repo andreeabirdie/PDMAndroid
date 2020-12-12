@@ -10,7 +10,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import ro.ubbcluj.ro.birdie.myapp.songs.data.Song
 
-@Database(entities = [Song::class], version = 12)
+@Database(entities = [Song::class], version = 13)
 abstract class SongDatabase : RoomDatabase() {
 
     abstract fun songDao(): SongDao

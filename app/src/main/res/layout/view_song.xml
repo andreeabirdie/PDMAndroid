@@ -12,31 +12,25 @@
         app:alignItems="stretch"
         app:flexWrap="wrap">
 
-        <ImageView
-            android:id="@+id/albumPicture"
-            android:layout_width="200dp"
-            android:layout_height="200dp"
-            android:visibility="gone" />
-
         <TextView
             android:id="@+id/title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="@dimen/dim_10dp"
+            android:layout_margin="@dimen/dim_5dp"
             android:hint="Song name" />
 
         <TextView
             android:id="@+id/streams"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="@dimen/dim_10dp"
+            android:layout_margin="@dimen/dim_5dp"
             android:hint="streams" />
 
         <TextView
             android:id="@+id/releaseDate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="@dimen/dim_10dp"
+            android:layout_margin="@dimen/dim_5dp"
             android:hint="release Date" />
 
         <ImageView
@@ -45,6 +39,26 @@
             android:layout_height="wrap_content"
             app:srcCompat="@drawable/ic_baseline_stars_24" />
 
+        <TextView
+            android:id="@+id/lat"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/dim_5dp"
+            android:hint="@string/latitude" />
+
+        <TextView
+            android:id="@+id/lon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/dim_5dp"
+            android:hint="@string/longitude" />
+
+
+        <ImageView
+            android:id="@+id/albumPicture"
+            android:layout_width="200dp"
+            android:layout_height="200dp"
+            android:visibility="gone" />
 
     </com.google.android.flexbox.FlexboxLayout>
 

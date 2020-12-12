@@ -21,8 +21,11 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import kotlinx.android.synthetic.main.fragment_edit_song.*
+import ro.ubbcluj.ro.birdie.myapp.BasicMapActivity
+import ro.ubbcluj.ro.birdie.myapp.EventsActivity
 import ro.ubbcluj.ro.birdie.myapp.R
 import ro.ubbcluj.ro.birdie.myapp.auth.data.AuthRepository
+import ro.ubbcluj.ro.birdie.myapp.core.LocationHelper
 import ro.ubbcluj.ro.birdie.myapp.core.TAG
 import ro.ubbcluj.ro.birdie.myapp.songs.data.Song
 import java.io.File
@@ -46,6 +49,7 @@ class SongEditFragment : Fragment() {
     override fun onResume() {
         super.onResume()
         checkCameraPermission()
+        initLocation()
     }
 
     override fun onCreateView(
@@ -84,6 +88,15 @@ class SongEditFragment : Fragment() {
         super.onActivityCreated(savedInstanceState)
         Log.v(TAG, "onActivityCreated")
         setupViewModel()
+
+        if (!song?._id.isNullOrEmpty()) {
+            deleteBtn.visibility = View.VISIBLE
+            deleteBtn.setOnClickListener {
+                song?.let { it1 -> viewModel.deleteItem(it1) }
+                findNavController().navigate(R.id.fragment_song_list)
+            }
+        }
+
         fab.setOnClickListener {
             Log.v(TAG, "save song")
             song?.let {
@@ -96,14 +109,21 @@ class SongEditFragment : Fragment() {
                 viewModel.saveOrUpdateSong(it)
             }
         }
-        if (!song?._id.isNullOrEmpty()) {
-            deleteBtn.visibility = View.VISIBLE
-            deleteBtn.setOnClickListener {
-                song?.let { it1 -> viewModel.deleteItem(it1) }
-                findNavController().navigate(R.id.fragment_song_list)
+
+        takePictureBtn.setOnClickListener { openCamera() }
+
+        setLocationBtn.setOnClickListener {
+            val intent = Intent(requireContext(), EventsActivity::class.java)
+            startActivity(intent)
+        }
+
+        seeLocationBtn.setOnClickListener {
+            if(song != null && song!!.latitude != null && song!!.longitude != null){
+                LocationHelper.setPinLocation(song?.latitude!!, song?.longitude!!)
+                val intent = Intent(requireContext(), BasicMapActivity::class.java)
+                startActivity(intent)
             }
         }
-        takePictureBtn.setOnClickListener { openCamera() }
     }
 
     @SuppressLint("SimpleDateFormat")
@@ -131,7 +151,19 @@ class SongEditFragment : Fragment() {
         })
         val id = song?._id
         if (id == null) {
-            song = Song("", "", 0, "01-01-2020", false, AuthRepository.getUsername(), "", 0, "");
+            song = Song(
+                "",
+                "",
+                0,
+                "01-01-2020",
+                false,
+                AuthRepository.getUsername(),
+                "",
+                0,
+                "",
+                0f,
+                0f
+            );
         } else {
             viewModel.getSongById(id).observe(viewLifecycleOwner, {
                 Log.v(TAG, "update items")
@@ -152,6 +184,8 @@ class SongEditFragment : Fragment() {
                     )
                     hasAwards.isChecked = it.hasAwards
                     song?.picturePath?.let { albumPicture.setImageURI(Uri.parse(song?.picturePath)) }
+                    latitudeTxt.text = "${getString(R.string.longitude)} ${it.latitude}"
+                    longitudeTxt.text = "${getString(R.string.longitude)} ${it.longitude}"
                 }
             })
         }
@@ -212,6 +246,16 @@ class SongEditFragment : Fragment() {
                 val uri = Uri.parse(currentPhotoPath)
                 albumPicture.setImageURI(uri)
             }
+        }
+    }
+
+    private fun initLocation() {
+        val location = LocationHelper.getLocationAndClear()
+        if(location.first != 0f || location.second != 0f) {
+            latitudeTxt.text = "${getString(R.string.longitude)} ${location.first}"
+            longitudeTxt.text = "${getString(R.string.longitude)} ${location.second}"
+            song?.latitude = location.first
+            song?.longitude = location.second
         }
     }
 }

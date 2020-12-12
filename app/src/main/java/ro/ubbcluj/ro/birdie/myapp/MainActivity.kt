@@ -10,6 +10,7 @@ import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.coroutines.InternalCoroutinesApi
+import ro.ubbcluj.ro.birdie.myapp.core.LocationHelper
 import ro.ubbcluj.ro.birdie.myapp.core.Properties
 import ro.ubbcluj.ro.birdie.myapp.core.TAG
 
@@ -28,6 +29,8 @@ class MainActivity : AppCompatActivity() {
         Properties.instance.toastMessage.observe(
             this,
             { Toast.makeText(this, it, Toast.LENGTH_LONG).show() })
+
+        LocationHelper.init(this)
     }
 
     @RequiresApi(Build.VERSION_CODES.N)
@@ -60,7 +63,6 @@ class MainActivity : AppCompatActivity() {
             }
         }
     }
-
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.menu_main, menu)

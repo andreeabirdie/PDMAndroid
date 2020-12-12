@@ -75,6 +75,8 @@ class SongListAdapter(
         private val releaseDate: TextView = view.releaseDate
         private val starIc: ImageView = view.starAwards
         private val albumPicture: ImageView = view.albumPicture
+        private val latitude: TextView = view.lat
+        private val longitude: TextView = view.lon
 
         fun bind(holder: ViewHolder, position: Int) {
             val song = songs[position]
@@ -87,10 +89,16 @@ class SongListAdapter(
                 itemView.setOnClickListener(onSongClick)
                 if(song.hasAwards) starIc.visibility = View.VISIBLE
                 else starIc.visibility = View.GONE
-                song.picturePath?.let {
+                if(song.picturePath.isNullOrEmpty())
+                    albumPicture.visibility = View.GONE
+                else {
                     albumPicture.setImageURI(Uri.parse(song.picturePath))
                     albumPicture.visibility = View.VISIBLE
                 }
+                if(song.latitude == null) song.latitude = 0f
+                if(song.longitude == null) song.longitude = 0f
+                latitude.text = "lat: ${song.latitude}"
+                longitude.text = "long: ${song.longitude}"
             }
         }
     }
