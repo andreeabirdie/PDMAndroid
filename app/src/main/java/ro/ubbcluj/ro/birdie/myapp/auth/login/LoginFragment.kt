@@ -7,6 +7,9 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.AlphaAnimation
+import android.view.animation.AnimationSet
+import android.view.animation.AnimationUtils
 import android.widget.EditText
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
@@ -36,6 +39,11 @@ class LoginFragment : Fragment() {
         super.onActivityCreated(savedInstanceState)
         viewModel = ViewModelProvider(this).get(LoginViewModel::class.java)
         setupLoginForm()
+        addChainAnimation()
+    }
+
+    private fun addChainAnimation() {
+        note.startAnimation(AnimationUtils.loadAnimation(context, R.anim.chain_animation))
     }
 
     private fun setupLoginForm() {
@@ -72,8 +80,10 @@ class LoginFragment : Fragment() {
         loginBtn.setOnClickListener {
             loading.visibility = View.VISIBLE
             error_text.visibility = View.GONE
-            viewModel.login(username.text.toString(), password.text.toString(),requireContext())
+            viewModel.login(username.text.toString(), password.text.toString(), requireContext())
         }
+
+
     }
 }
 

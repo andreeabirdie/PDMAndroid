@@ -12,7 +12,7 @@ interface SongDao {
     @Query("SELECT * from songs WHERE owner=:username ORDER BY title ASC")
     fun getAllSongs(username: String): List<Song>
 
-    @Query("SELECT * FROM Songs WHERE _id=:id ")
+    @Query("SELECT * FROM songs WHERE _id=:id ")
     fun getById(id: String): LiveData<Song>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)

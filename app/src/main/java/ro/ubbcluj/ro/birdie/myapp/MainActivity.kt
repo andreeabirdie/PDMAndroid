@@ -1,5 +1,6 @@
 package ro.ubbcluj.ro.birdie.myapp
 
+import android.animation.ObjectAnimator
 import android.net.*
 import android.os.Build
 import android.os.Bundle
@@ -53,6 +54,14 @@ class MainActivity : AppCompatActivity() {
                 networkTxt.text = getString(R.string.active_network)
                 networkIc.setImageResource(R.drawable.ic_active_network)
             }
+            ObjectAnimator.ofFloat(networkIc, "translationX", 100f).apply {
+                duration = 2000
+                start()
+            }
+            ObjectAnimator.ofFloat(networkTxt, "translationX", 100f).apply {
+                duration = 2000
+                start()
+            }
         }
 
         override fun onLost(network: Network) {
@@ -60,6 +69,14 @@ class MainActivity : AppCompatActivity() {
             runOnUiThread {
                 networkTxt.text = getString(R.string.inactive_network)
                 networkIc.setImageResource(R.drawable.ic_inactive_network)
+            }
+            ObjectAnimator.ofFloat(networkIc, "translationX", 0f).apply {
+                duration = 2000
+                start()
+            }
+            ObjectAnimator.ofFloat(networkTxt, "translationX", 0f).apply {
+                duration = 2000
+                start()
             }
         }
     }

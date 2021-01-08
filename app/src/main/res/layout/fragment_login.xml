@@ -7,6 +7,16 @@
     android:background="@color/colorAccent"
     tools:context=".auth.login.LoginFragment">
 
+    <ImageView
+        android:id="@+id/note"
+        android:layout_width="65dp"
+        android:layout_height="65dp"
+        android:layout_marginBottom="@dimen/dim_100dp"
+        android:src="@drawable/ic_baseline_music_note_24"
+        app:layout_constraintBottom_toTopOf="@id/username"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
     <EditText
         android:id="@+id/username"
         android:layout_width="match_parent"

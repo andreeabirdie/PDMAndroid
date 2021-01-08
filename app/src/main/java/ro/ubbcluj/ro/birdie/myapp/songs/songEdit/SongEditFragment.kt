@@ -12,6 +12,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.AnimationUtils
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
@@ -124,6 +125,9 @@ class SongEditFragment : Fragment() {
                 startActivity(intent)
             }
         }
+
+        albumPicture.startAnimation(AnimationUtils.loadAnimation(context, R.anim.slide_reveal_from_left))
+        takePictureBtn.startAnimation(AnimationUtils.loadAnimation(context, R.anim.slide_reveal_from_right))
     }
 
     @SuppressLint("SimpleDateFormat")
